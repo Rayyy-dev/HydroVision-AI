@@ -27,13 +27,43 @@ export default function AboutProject({ onClose }: AboutProjectProps) {
         <CardContent className="pt-6">
           <div className="space-y-6">
             <section>
-              <h3 className="text-xl font-semibold text-slate-800 mb-2">Interdisciplinary Project</h3>
+              <h3 className="text-xl font-semibold text-slate-800 mb-2">Project Overview</h3>
               <p className="text-slate-600">
-                HydroVision AI is an interdisciplinary project focused on hydrological change analysis using satellite
-                data and AI. Our goal is to utilize satellite imagery and machine learning techniques to analyze
-                hydrological changes in the Masuria region, identify patterns of water body changes, and assess their
-                environmental impact.
+                HydroVision AI is an advanced analytical platform that combines satellite imagery, historical data, and machine learning to predict hydrological changes in the Masuria Lake District. The project aims to provide actionable insights for conservation efforts, resource management, and climate adaptation planning.
               </p>
+            </section>
+
+            <section>
+              <h3 className="text-xl font-semibold text-slate-800 mb-2">Masuria Lakes Coverage</h3>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+                <div className="bg-blue-50 p-4 rounded-md border border-blue-100">
+                  <h4 className="font-medium text-blue-800 mb-2">Lake Mamry</h4>
+                  <ul className="text-sm text-slate-600 space-y-1">
+                    <li>Area: 104 km²</li>
+                    <li>Max Depth: 43.8m</li>
+                    <li>Shoreline: 178 km</li>
+                    <li>Vulnerability: High</li>
+                  </ul>
+                </div>
+                <div className="bg-blue-50 p-4 rounded-md border border-blue-100">
+                  <h4 className="font-medium text-blue-800 mb-2">Lake Śniardwy</h4>
+                  <ul className="text-sm text-slate-600 space-y-1">
+                    <li>Area: 113.8 km²</li>
+                    <li>Max Depth: 23.4m</li>
+                    <li>Shoreline: 152 km</li>
+                    <li>Vulnerability: Medium</li>
+                  </ul>
+                </div>
+                <div className="bg-blue-50 p-4 rounded-md border border-blue-100">
+                  <h4 className="font-medium text-blue-800 mb-2">Lake Niegocin</h4>
+                  <ul className="text-sm text-slate-600 space-y-1">
+                    <li>Area: 26.04 km²</li>
+                    <li>Max Depth: 39.7m</li>
+                    <li>Shoreline: 35 km</li>
+                    <li>Vulnerability: High</li>
+                  </ul>
+                </div>
+              </div>
             </section>
 
             <section>
@@ -62,40 +92,59 @@ export default function AboutProject({ onClose }: AboutProjectProps) {
             </section>
 
             <section>
-              <h3 className="text-xl font-semibold text-slate-800 mb-2">Project Requirements</h3>
-              <ul className="list-disc pl-5 space-y-2 text-slate-600">
-                <li>
-                  <span className="font-medium">Team:</span> The project is carried out in groups of 4-6 members.
-                </li>
-                <li>
-                  <span className="font-medium">Interdisciplinarity:</span> IT & environmental science.
-                </li>
-                <li>
-                  <span className="font-medium">Project Management:</span> Apply project management methodologies (Scrum
-                  or Kanban).
-                </li>
-              </ul>
+              <h3 className="text-xl font-semibold text-slate-800 mb-2">Report Types</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+                <div className="border border-slate-200 rounded-md p-3">
+                  <h4 className="font-medium text-slate-800">Comprehensive Analysis</h4>
+                  <p className="text-sm text-slate-600 mt-1">Detailed assessment of current conditions and future projections covering hydrological changes, environmental impacts, and conservation needs.</p>
+                </div>
+                <div className="border border-slate-200 rounded-md p-3">
+                  <h4 className="font-medium text-slate-800">Environmental Impact</h4>
+                  <p className="text-sm text-slate-600 mt-1">Focused analysis of ecological consequences of water level changes on surrounding habitats, water quality, and biodiversity.</p>
+                </div>
+                <div className="border border-slate-200 rounded-md p-3">
+                  <h4 className="font-medium text-slate-800">Conservation Strategy</h4>
+                  <p className="text-sm text-slate-600 mt-1">Strategic interventions needed to preserve water resources with targeted recommendations for areas requiring immediate action.</p>
+                </div>
+                <div className="border border-slate-200 rounded-md p-3">
+                  <h4 className="font-medium text-slate-800">Tourism Impact</h4>
+                  <p className="text-sm text-slate-600 mt-1">Evaluation of how projected changes will affect recreational usage and tourism-based economies in the region.</p>
+                </div>
+              </div>
             </section>
 
             <section>
               <h3 className="text-xl font-semibold text-slate-800 mb-2">Technology</h3>
-              <p className="text-slate-600">HydroVision AI utilizes cutting-edge technologies including:</p>
-              <ul className="list-disc pl-5 space-y-1 mt-2 text-slate-600">
-                <li>Satellite imagery analysis (Sentinel-2, Landsat)</li>
-                <li>Machine learning algorithms for pattern recognition and prediction</li>
-                <li>Python libraries (NumPy, OpenCV, scikit-learn)</li>
-                <li>Convolutional Neural Networks (CNNs) for classification</li>
-                <li>Data visualization tools (Matplotlib, Seaborn)</li>
-              </ul>
-            </section>
-
-            <section>
-              <h3 className="text-xl font-semibold text-slate-800 mb-2">Contact Information</h3>
-              <p className="text-slate-600">For more information about the HydroVision AI project, please contact:</p>
-              <div className="mt-2 text-slate-600">
-                <p>Email: info@hydrovision-ai.org</p>
-                <p>Phone: +48 22 123 4567</p>
-                <p>Address: Environmental Research Center, Warsaw, Poland</p>
+              <div className="bg-slate-50 p-4 rounded-md border border-slate-200">
+                <div className="flex flex-col md:flex-row justify-between space-y-4 md:space-y-0">
+                  <div>
+                    <h4 className="font-medium text-slate-800 mb-2">Data Sources</h4>
+                    <ul className="list-disc pl-5 space-y-1 text-sm text-slate-600">
+                      <li>Sentinel-2 satellite imagery</li>
+                      <li>Landsat 8 thermal and infrared</li>
+                      <li>Historical water level records</li>
+                      <li>Climate projection models</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h4 className="font-medium text-slate-800 mb-2">AI Processing</h4>
+                    <ul className="list-disc pl-5 space-y-1 text-sm text-slate-600">
+                      <li>Machine learning models</li>
+                      <li>Image segmentation</li>
+                      <li>Time series analysis</li>
+                      <li>Predictive modeling</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h4 className="font-medium text-slate-800 mb-2">Visualization</h4>
+                    <ul className="list-disc pl-5 space-y-1 text-sm text-slate-600">
+                      <li>Interactive maps</li>
+                      <li>Time-series charts</li>
+                      <li>Comparison tools</li>
+                      <li>Report generation</li>
+                    </ul>
+                  </div>
+                </div>
               </div>
             </section>
           </div>

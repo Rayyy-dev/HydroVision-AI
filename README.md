@@ -35,6 +35,13 @@ HydroVision AI is a sophisticated web application that combines satellite imager
   - Trend visualization
   - Custom report generation
 
+## Report Types
+
+- **Comprehensive Analysis**: Detailed assessment of current conditions and future projections covering hydrological changes, environmental impacts, and conservation needs.
+- **Environmental Impact**: Focused analysis of ecological consequences of water level changes on surrounding habitats, water quality, and biodiversity.
+- **Conservation Strategy**: Strategic interventions needed to preserve water resources with targeted recommendations for areas requiring immediate action.
+- **Tourism Impact**: Evaluation of how projected changes will affect recreational usage and tourism-based economies in the region.
+
 ## Technology Stack
 
 - **Frontend**
@@ -83,21 +90,18 @@ hydrovision-ai/
 └── pages/            # Next.js pages
 ```
 
-## Contributing
+## Lakes Covered
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+- **Lake Mamry**: 104 km² area, 43.8m max depth, 178 km shoreline
+- **Lake Śniardwy**: 113.8 km² area, 23.4m max depth, 152 km shoreline
+- **Lake Niegocin**: 26.04 km² area, 39.7m max depth, 35 km shoreline
 
 ## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-## Contact
-
-- GitHub: [@Rayyy-dev](https://github.com/Rayyy-dev)
-- Email: malikk.rayy@gmail.com
-
 ## Acknowledgments
 
-- Satellite imagery data sources
-- AI prediction models
-- Masuria Lake District authorities
+- Sentinel-2 and Landsat satellite imagery
+- Machine learning prediction models
+- Masuria Lake District conservation efforts

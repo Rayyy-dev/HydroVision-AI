@@ -19,7 +19,6 @@ export default function ReportGenerator({ selectedRegion, selectedYear, analysis
   const [isGenerating, setIsGenerating] = useState(false)
   const [reportType, setReportType] = useState("comprehensive")
   const [predictionScenario, setPredictionScenario] = useState("moderate")
-  const [additionalNotes, setAdditionalNotes] = useState("")
   const [selectedLake, setSelectedLake] = useState(selectedRegion === "All Masuria" ? "Lake Mamry" : selectedRegion)
   const [analysisTab, setAnalysisTab] = useState("waterLevels")
 
@@ -204,6 +203,48 @@ export default function ReportGenerator({ selectedRegion, selectedYear, analysis
       
       const scenarioInfo = scenarioData[predictionScenario as keyof typeof scenarioData];
       
+      // Generate report focus specific content
+      const reportFocusContent = {
+        comprehensive: {
+          title: "Comprehensive Lake Analysis",
+          summary: `This comprehensive analysis provides a detailed assessment of current conditions and future projections for ${selectedLake}, covering hydrological changes, environmental impacts, and conservation needs. Based on satellite imagery analysis and AI-powered predictions using the ${predictionScenario} scenario model, we've identified significant changes expected by 2035.`,
+          additionalInfo: [
+            "Comprehensive water volume assessment shows critical patterns.",
+            "Analysis includes both surface area and depth metrics.",
+            "Evaluation of surrounding ecosystem impact included."
+          ]
+        },
+        environmental: {
+          title: "Environmental Impact Analysis",
+          summary: `This environmental impact report for ${selectedLake} focuses on ecological consequences of water level changes. Using the ${predictionScenario} climate scenario model, we've identified how projected hydrological changes by 2035 will impact surrounding habitats, water quality, and biodiversity.`,
+          additionalInfo: [
+            "Shoreline habitat disruption predicted to affect local fauna.",
+            "Water quality parameters projected to change as volume decreases.",
+            "Biodiversity hotspots identified for priority conservation."
+          ]
+        },
+        conservation: {
+          title: "Conservation Strategy Analysis",
+          summary: `This conservation-focused report for ${selectedLake} outlines strategic interventions needed to preserve water resources. Based on the ${predictionScenario} climate scenario model, we've developed targeted recommendations for areas requiring immediate action by 2035.`,
+          additionalInfo: [
+            "Priority zones identified for immediate conservation efforts.",
+            "Cost-benefit analysis of different intervention strategies included.",
+            "Timeline for implementation of conservation measures proposed."
+          ]
+        },
+        tourism: {
+          title: "Tourism Impact Analysis",
+          summary: `This tourism impact report for ${selectedLake} evaluates how projected changes will affect recreational usage and tourism-based economies. Using the ${predictionScenario} climate scenario model, we've analyzed how water level and quality changes by 2035 will impact visitor experiences and local businesses.`,
+          additionalInfo: [
+            "Beach and shoreline recreational areas show significant vulnerability.",
+            "Seasonal tourism patterns likely to shift with changing water conditions.",
+            "Economic impact assessment for tourism-dependent communities included."
+          ]
+        }
+      };
+      
+      const focusData = reportFocusContent[reportType as keyof typeof reportFocusContent];
+      
       // Set up document styles
       doc.setFillColor(33, 63, 154);
       doc.rect(0, 0, 210, 25, 'F');
@@ -213,10 +254,10 @@ export default function ReportGenerator({ selectedRegion, selectedYear, analysis
       doc.setTextColor(255, 255, 255);
       doc.text("HydroVision AI: Lake Analysis Report", 105, 15, { align: 'center' });
       
-      // Add lake name subtitle
+      // Add lake name subtitle and report focus
       doc.setFontSize(18);
       doc.setTextColor(0, 0, 0);
-      doc.text(`${selectedLake} Analysis`, 105, 35, { align: 'center' });
+      doc.text(`${selectedLake} Analysis: ${focusData.title}`, 105, 35, { align: 'center' });
       
       // Report metadata
       doc.setFontSize(10);
@@ -247,7 +288,7 @@ export default function ReportGenerator({ selectedRegion, selectedYear, analysis
       
       doc.setFontSize(10);
       doc.setTextColor(0, 0, 0);
-      const summaryText = `This analysis report provides a detailed assessment of current conditions and future projections for ${selectedLake}. Based on satellite imagery analysis and AI-powered predictions using the ${predictionScenario} scenario model, we've identified significant hydrological changes expected to occur by 2035. These changes pose various challenges that require adaptive management strategies.`;
+      const summaryText = focusData.summary;
       
       const splitSummary = doc.splitTextToSize(summaryText, 170);
       doc.text(splitSummary, 20, 115);
@@ -265,15 +306,27 @@ export default function ReportGenerator({ selectedRegion, selectedYear, analysis
       doc.text(`• Critical threshold timeline: ${scenarioInfo.timeToThreshold}`, 20, yPosFindings + 22);
       doc.text(`• AI model confidence score: ${scenarioInfo.confidenceScore}%`, 20, yPosFindings + 28);
       
-      // Primary threats
+      // Report focus-specific insights
       doc.setFontSize(14);
       doc.setTextColor(33, 63, 154);
-      doc.text("Primary Threats", 20, yPosFindings + 40);
+      doc.text(`${focusData.title} Insights`, 20, yPosFindings + 40);
+      
+      doc.setFontSize(10);
+      doc.setTextColor(0, 0, 0);
+      focusData.additionalInfo.forEach((info, i) => {
+        doc.text(`• ${info}`, 20, yPosFindings + 50 + (i * 6));
+      });
+      
+      // Primary threats
+      const yPosThreats = yPosFindings + 70;
+      doc.setFontSize(14);
+      doc.setTextColor(33, 63, 154);
+      doc.text("Primary Threats", 20, yPosThreats);
       
       doc.setFontSize(10);
       doc.setTextColor(0, 0, 0);
       currentLakeData.threats.forEach((threat, i) => {
-        doc.text(`• ${threat}`, 20, yPosFindings + 50 + (i * 6));
+        doc.text(`• ${threat}`, 20, yPosThreats + 10 + (i * 6));
       });
       
       // Add new page for charts and insights
@@ -463,6 +516,93 @@ export default function ReportGenerator({ selectedRegion, selectedYear, analysis
       drawWaterLevelChart();
       drawSurfaceAreaChart();
       
+      // Add Masuria Region Satellite Imagery section
+      doc.addPage();
+      
+      // Title for satellite imagery section
+      doc.setFontSize(16);
+      doc.setTextColor(33, 63, 154);
+      doc.text("Masuria Region Satellite Imagery", 105, 20, { align: 'center' });
+      
+      // Satellite imagery info
+      doc.setFontSize(10);
+      doc.setTextColor(0, 0, 0);
+      doc.text("Analysis based on satellite imagery from the following sources:", 20, 35);
+      doc.text("• Sentinel-2 multispectral imaging (10m resolution)", 25, 45);
+      doc.text("• Landsat 8 thermal and infrared bands (30m resolution)", 25, 51);
+      doc.text("• MODIS daily water coverage data (250m resolution)", 25, 57);
+      
+      // Draw satellite coverage map
+      doc.setFillColor(240, 240, 240);
+      doc.roundedRect(20, 65, 170, 80, 3, 3, 'F');
+      
+      // Draw simplified map of Masuria region
+      // Lakes
+      doc.setFillColor(200, 220, 240);
+      
+      // Lake Śniardwy (largest)
+      doc.ellipse(105, 95, 30, 15, 'F');
+      
+      // Lake Mamry
+      doc.ellipse(85, 80, 15, 10, 'F');
+      
+      // Lake Niegocin
+      doc.ellipse(120, 105, 10, 8, 'F');
+      
+      // Other small lakes
+      doc.ellipse(70, 90, 8, 6, 'F');
+      doc.ellipse(130, 85, 6, 5, 'F');
+      doc.ellipse(95, 110, 7, 5, 'F');
+      
+      // Land
+      doc.setFillColor(230, 230, 210);
+      
+      // Add labels
+      doc.setFontSize(8);
+      doc.setTextColor(0, 0, 150);
+      doc.text("Lake Śniardwy", 105, 95, { align: 'center' });
+      doc.text("Lake Mamry", 85, 80, { align: 'center' });
+      doc.text("Lake Niegocin", 120, 105, { align: 'center' });
+      
+      // Add satellite coverage grid
+      doc.setDrawColor(255, 0, 0);
+      doc.setLineDashPattern([1, 1], 0);
+      doc.setLineWidth(0.2);
+      
+      // Draw grid lines representing satellite path
+      for (let i = 0; i <= 170; i += 20) {
+        doc.line(20 + i, 65, 20 + i, 145);
+      }
+      
+      for (let i = 0; i <= 80; i += 20) {
+        doc.line(20, 65 + i, 190, 65 + i);
+      }
+      
+      doc.setLineDashPattern([], 0);
+      
+      // Add legend
+      doc.setFontSize(8);
+      doc.setTextColor(0, 0, 0);
+      doc.setFillColor(200, 220, 240);
+      doc.rect(25, 150, 5, 5, 'F');
+      doc.text("Lakes", 35, 154);
+      
+      doc.setFillColor(230, 230, 210);
+      doc.rect(65, 150, 5, 5, 'F');
+      doc.text("Land", 75, 154);
+      
+      doc.setDrawColor(255, 0, 0);
+      doc.setLineDashPattern([1, 1], 0);
+      doc.line(100, 152, 115, 152);
+      doc.setLineDashPattern([], 0);
+      doc.text("Satellite Coverage Grid", 140, 154);
+      
+      // Add satellite image processing notes
+      doc.setFontSize(9);
+      doc.setTextColor(80, 80, 80);
+      doc.text("Image processing: Enhanced vegetation index (EVI) and normalized difference water index (NDWI)", 105, 170, { align: 'center' });
+      doc.text("AI analysis: Deep learning segmentation to detect water boundaries and changes over time", 105, 176, { align: 'center' });
+      
       // AI-Generated insights
       doc.setFontSize(14);
       doc.setTextColor(33, 63, 154);
@@ -477,7 +617,7 @@ export default function ReportGenerator({ selectedRegion, selectedYear, analysis
         doc.text(`• ${insight}`, 20, 200 + (i * 6));
       });
       
-      // Add new page for recommendations
+      // Add new page for recommendations and about project
       doc.addPage();
       
       // Recommendations
@@ -493,17 +633,68 @@ export default function ReportGenerator({ selectedRegion, selectedYear, analysis
       doc.text("4. Engage local communities in water preservation efforts", 20, 58);
       doc.text("5. Establish stronger water usage regulations for surrounding activities", 20, 64);
       
-      // Add any additional notes if provided
-      if (additionalNotes) {
-        doc.setFontSize(14);
-        doc.setTextColor(33, 63, 154);
-        doc.text("Additional Notes", 20, 80);
-        
-        const notesText = doc.splitTextToSize(additionalNotes, 170);
-        doc.setFontSize(10);
-        doc.setTextColor(0, 0, 0);
-        doc.text(notesText, 20, 90);
-      }
+      // About Project section
+      doc.setFontSize(14);
+      doc.setTextColor(33, 63, 154);
+      doc.text("About This Project", 20, 80);
+      
+      // Project description
+      doc.setFontSize(10);
+      doc.setTextColor(0, 0, 0);
+      const projectText = "HydroVision AI is an advanced analytical platform that combines satellite imagery, historical data, and machine learning to predict hydrological changes in the Masuria Lake District. The project aims to provide actionable insights for conservation efforts, resource management, and climate adaptation planning.";
+      const projectTextLines = doc.splitTextToSize(projectText, 170);
+      doc.text(projectTextLines, 20, 90);
+      
+      // Project visuals - simple technology stack diagram
+      doc.setFillColor(240, 240, 240);
+      doc.roundedRect(20, 110, 170, 60, 3, 3, 'F');
+      
+      // Draw simplified technology stack diagram
+      // Data sources box
+      doc.setFillColor(220, 230, 240);
+      doc.roundedRect(30, 120, 40, 25, 2, 2, 'F');
+      doc.setFontSize(8);
+      doc.setTextColor(0, 0, 0);
+      doc.text("Data Sources", 50, 127, { align: 'center' });
+      doc.setFontSize(6);
+      doc.text("• Satellite Imagery", 35, 134);
+      doc.text("• Historical Water Levels", 35, 139);
+      doc.text("• Climate Models", 35, 144);
+      
+      // Arrow
+      doc.setDrawColor(100, 100, 100);
+      doc.setLineWidth(0.5);
+      doc.line(70, 133, 85, 133);
+      doc.line(85, 133, 82, 131);
+      doc.line(85, 133, 82, 135);
+      
+      // Processing box
+      doc.setFillColor(220, 240, 230);
+      doc.roundedRect(85, 120, 40, 25, 2, 2, 'F');
+      doc.setFontSize(8);
+      doc.setTextColor(0, 0, 0);
+      doc.text("AI Processing", 105, 127, { align: 'center' });
+      doc.setFontSize(6);
+      doc.text("• Image Segmentation", 90, 134);
+      doc.text("• Time Series Analysis", 90, 139);
+      doc.text("• Predictive Modeling", 90, 144);
+      
+      // Arrow
+      doc.setDrawColor(100, 100, 100);
+      doc.line(125, 133, 140, 133);
+      doc.line(140, 133, 137, 131);
+      doc.line(140, 133, 137, 135);
+      
+      // Output box
+      doc.setFillColor(240, 220, 220);
+      doc.roundedRect(140, 120, 40, 25, 2, 2, 'F');
+      doc.setFontSize(8);
+      doc.setTextColor(0, 0, 0);
+      doc.text("Analysis Output", 160, 127, { align: 'center' });
+      doc.setFontSize(6);
+      doc.text("• Water Level Trends", 145, 134);
+      doc.text("• Surface Area Changes", 145, 139);
+      doc.text("• Visualization & Reports", 145, 144);
       
       // Footer
       doc.setFillColor(33, 63, 154);
@@ -511,12 +702,12 @@ export default function ReportGenerator({ selectedRegion, selectedYear, analysis
       
       doc.setFontSize(9);
       doc.setTextColor(255, 255, 255);
-      doc.text("HydroVision AI: Interdisciplinary Project for Hydrological Analysis Using Satellite Data and AI", 105, 285, { align: 'center' });
+      doc.text("HydroVision AI: Advanced Hydrological Analysis Using Satellite Data and AI", 105, 285, { align: 'center' });
       doc.setFontSize(8);
       doc.text(`Report ID: HV-${Date.now().toString().substring(6)}`, 105, 290, { align: 'center' });
       
       // Save the PDF with proper filename
-      doc.save(`${selectedLake.replace(/\s+/g, "_")}_Analysis_Report.pdf`);
+      doc.save(`${selectedLake.replace(/\s+/g, "_")}_${reportType}_Analysis_Report.pdf`);
     } catch (error) {
       console.error("Error generating PDF:", error);
       alert("There was an error generating your PDF report. Trying alternative format...");
@@ -635,7 +826,7 @@ Report ID: HV-${Date.now().toString().substring(6)}
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 max-h-[calc(100vh-6rem)] overflow-y-auto pb-4">
       <div className="space-y-2">
         <Label htmlFor="lake-selection">Select Lake for Analysis</Label>
         <Select value={selectedLake} onValueChange={setSelectedLake}>
@@ -708,33 +899,13 @@ Report ID: HV-${Date.now().toString().substring(6)}
         </Tabs>
       </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="additional-notes">Expert Comments (Optional)</Label>
-        <Textarea
-          id="additional-notes"
-          placeholder="Add any specific observations, concerns, or recommendations..."
-          value={additionalNotes}
-          onChange={(e) => setAdditionalNotes(e.target.value)}
-          className="resize-none h-20"
-        />
-      </div>
-
-      {!analysisResult && (
-        <div className="flex items-start gap-2 p-3 bg-amber-50 rounded-md border border-neutral-200 border-amber-200 dark:border-neutral-800">
-          <AlertTriangle className="h-4 w-4 text-amber-500 mt-0.5 flex-shrink-0" />
-          <p className="text-xs text-amber-700">
-            For more detailed analysis in your report, run the "Analyze Current Trends" in the AI Predictions panel.
-          </p>
-        </div>
-      )}
-
       {/* Preview area for charts */}
-      <div className="mt-6 mb-4">
+      <div className="mt-4">
         <Label className="block mb-2">Data Preview</Label>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          <div className="p-3 bg-white rounded-md border border-gray-200 h-64">
+          <div className="p-3 bg-white rounded-md border border-gray-200 h-56">
             <h4 className="text-sm font-medium mb-2 text-blue-800">Water Level Trends</h4>
-            <div className="h-[200px]">
+            <div className="h-[180px]">
               <ChartContainer className="h-full">
                 <LineChart className="h-full">
                   <Line 
@@ -758,9 +929,9 @@ Report ID: HV-${Date.now().toString().substring(6)}
               </ChartContainer>
             </div>
           </div>
-          <div className="p-3 bg-white rounded-md border border-gray-200 h-64">
+          <div className="p-3 bg-white rounded-md border border-gray-200 h-56">
             <h4 className="text-sm font-medium mb-2 text-blue-800">Surface Area Changes</h4>
-            <div className="h-[200px]">
+            <div className="h-[180px]">
               <ChartContainer className="h-full">
                 <BarChart className="h-full">
                   {getCurrentLakeData().surfaceAreaData.map((item, i) => (
@@ -779,7 +950,16 @@ Report ID: HV-${Date.now().toString().substring(6)}
           </div>
         </div>
       </div>
-      
+
+      {!analysisResult && (
+        <div className="flex items-start gap-2 p-3 bg-amber-50 rounded-md border border-neutral-200 border-amber-200 dark:border-neutral-800">
+          <AlertTriangle className="h-4 w-4 text-amber-500 mt-0.5 flex-shrink-0" />
+          <p className="text-xs text-amber-700">
+            For more detailed analysis in your report, run the "Analyze Current Trends" in the AI Predictions panel.
+          </p>
+        </div>
+      )}
+
       <Button 
         onClick={handleGenerateReport} 
         disabled={isGenerating} 
