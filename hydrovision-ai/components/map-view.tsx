@@ -96,6 +96,25 @@ export default function MapView({ selectedYear, onRegionSelect }: MapViewProps) 
           <div className="text-xs text-blue-600">Year: {selectedYear}</div>
         </div>
 
+        {/* Satellite data summary */}
+        <div className="absolute top-2 left-16 bg-white bg-opacity-90 p-2 rounded-md shadow-sm z-10">
+          <div className="text-xs font-medium mb-1">Satellite Data</div>
+          <div className="space-y-1">
+            <div className="flex items-center text-xs">
+              <span className="text-gray-600">Resolution:</span>
+              <span className="ml-1 text-gray-800">15m</span>
+            </div>
+            <div className="flex items-center text-xs">
+              <span className="text-gray-600">Coverage:</span>
+              <span className="ml-1 text-gray-800">97%</span>
+            </div>
+            <div className="flex items-center text-xs">
+              <span className="text-gray-600">Satellite:</span>
+              <span className="ml-1 text-gray-800">Sentinel-2</span>
+            </div>
+          </div>
+        </div>
+
         {/* Water bodies */}
         {waterBodies.map((lake) => {
           const position = calculatePosition(lake.lat, lake.lng, zoom)
@@ -139,14 +158,14 @@ export default function MapView({ selectedYear, onRegionSelect }: MapViewProps) 
 
         {/* Map legend */}
         <div className="absolute bottom-2 right-2 bg-white bg-opacity-90 p-2 rounded-md shadow-sm">
-          <div className="text-xs font-medium mb-1">Water Level</div>
-          <div className="flex items-center space-x-1">
-            <div className="w-3 h-3 rounded-full bg-blue-300"></div>
-            <span className="text-xs">Low</span>
+          <div className="text-xs font-medium mb-1">Satellite Imagery</div>
+          <div className="flex items-center space-x-2">
+            <div className="w-3 h-3 rounded-full bg-green-600"></div>
+            <span className="text-xs">Vegetation</span>
             <div className="w-3 h-3 rounded-full bg-blue-500"></div>
-            <span className="text-xs">Medium</span>
-            <div className="w-3 h-3 rounded-full bg-blue-700"></div>
-            <span className="text-xs">High</span>
+            <span className="text-xs">Water</span>
+            <div className="w-3 h-3 rounded-full bg-amber-200"></div>
+            <span className="text-xs">Land</span>
           </div>
         </div>
       </div>

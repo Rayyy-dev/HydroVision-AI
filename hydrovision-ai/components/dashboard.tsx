@@ -91,7 +91,7 @@ export default function Dashboard() {
                 <Card className="shadow-md">
                   <CardHeader className="pb-2">
                     <div className="flex justify-between items-center">
-                      <CardTitle>Masuria Region Water Bodies</CardTitle>
+                      <CardTitle>Masuria Region Satellite Imagery</CardTitle>
                       <div className="flex items-center space-x-2">
                         <span className="text-sm text-slate-600">Year: {selectedYear}</span>
                       </div>
