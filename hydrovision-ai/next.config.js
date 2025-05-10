@@ -8,6 +8,8 @@ const nextConfig = {
     images: {
         domains: ['localhost'],
     },
+    framework: 'nextjs',
+    poweredByHeader: false,
 }
 
 module.exports = nextConfig 

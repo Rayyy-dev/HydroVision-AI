@@ -73,12 +73,12 @@ export default function PredictionChart({ selectedRegion, currentYear }: Predict
       <ChartContainer
         title="AI-Predicted Water Levels"
         description={`Predicted water levels in ${selectedRegion} (${currentYear}-2035)`}
-        className="h-full"
+        className="h-full w-full"
       >
-        <Chart className="h-full">
-          <AreaChart data={data}>
-            <XAxis dataKey="year" />
-            <YAxis tickFormatter={(value) => `${value}m`} domain={[-1.5, 0]} tickCount={6} />
+        <Chart className="h-full w-full overflow-hidden">
+          <AreaChart data={data} margin={{ top: 20, right: 30, bottom: 25, left: 30 }}>
+            <XAxis dataKey="year" dy={10} />
+            <YAxis tickFormatter={(value) => `${value}m`} domain={[-1.5, 0]} tickCount={6} dx={-10} />
             <Area dataKey="upperBound" stroke="transparent" fill="#bfdbfe" fillOpacity={0.5} />
             <Area dataKey="lowerBound" stroke="transparent" fill="#bfdbfe" fillOpacity={0.5} />
             <Line

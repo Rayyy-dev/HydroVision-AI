@@ -61,22 +61,21 @@ export default function WaterLevelChart({ selectedRegion }: WaterLevelChartProps
       : historicalData
 
   return (
-    <div className="h-[300px] w-full">
+    <div className="h-[250px] w-full">
       <ChartContainer
         title="Historical Water Level Changes"
         description={`Water level changes in ${selectedRegion} (2000-2025)`}
-        className="h-full"
+        className="h-full w-full"
       >
-        <Chart className="h-full">
-          <LineChart data={data}>
-            <XAxis dataKey="year" />
-            <YAxis tickFormatter={(value) => `${value}m`} domain={[-0.7, 0.1]} tickCount={5} />
+        <Chart className="h-full w-full overflow-hidden">
+          <LineChart data={data} margin={{ top: 15, right: 25, bottom: 30, left: 25 }} scale="auto">
+            <XAxis dataKey="year" dy={8} fontSize={11} />
+            <YAxis tickFormatter={(value) => `${value}m`} domain={[-0.7, 0.1]} tickCount={5} dx={-5} fontSize={11} />
             <Line
               dataKey="level"
               stroke="#1e40af"
-              strokeWidth={2}
-              dot={{ fill: "#1e40af", r: 4 }}
-              activeDot={{ r: 6, fill: "#3b82f6" }}
+              dot={{ fill: "#1e40af", r: 3 }}
+              activeDot={{ r: 5, fill: "#3b82f6" }}
             />
             <ChartTooltip>
               <ChartTooltipContent

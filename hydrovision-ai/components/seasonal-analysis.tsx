@@ -65,18 +65,18 @@ export default function SeasonalAnalysis({ selectedRegion }: SeasonalAnalysisPro
   const data = generateSeasonalData(selectedRegion)
 
   return (
-    <div className="h-[300px] w-full">
+    <div className="h-[250px] w-full">
       <ChartContainer
         title="Seasonal Water Level Fluctuations"
         description={`Monthly water level changes in ${selectedRegion} (current vs historical)`}
-        className="h-full"
+        className="h-full w-full"
       >
-        <Chart className="h-full">
-          <BarChart data={data}>
-            <XAxis dataKey="month" />
-            <YAxis tickFormatter={(value) => `${value}m`} domain={[-0.2, 0.1]} tickCount={7} />
-            <Bar dataKey="level" name="Current Pattern" fill="#3b82f6" radius={[4, 4, 0, 0]} />
-            <Bar dataKey="historical" name="Historical Pattern" fill="#93c5fd" radius={[4, 4, 0, 0]} />
+        <Chart className="h-full w-full overflow-hidden">
+          <BarChart data={data} margin={{ top: 15, right: 25, bottom: 30, left: 25 }} scale="auto">
+            <XAxis dataKey="month" dy={8} fontSize={11} />
+            <YAxis tickFormatter={(value) => `${value}m`} domain={[-0.2, 0.1]} tickCount={5} dx={-5} fontSize={11} />
+            <Bar dataKey="level" name="Current Pattern" fill="#3b82f6" radius={[2, 2, 0, 0]} />
+            <Bar dataKey="historical" name="Historical Pattern" fill="#93c5fd" radius={[2, 2, 0, 0]} />
             <ChartTooltip>
               <ChartTooltipContent
                 className="bg-white p-2 border border-neutral-200 border-gray-200 shadow-md rounded-md dark:border-neutral-800"
