@@ -69,24 +69,24 @@ export default function PredictionChart({ selectedRegion, currentYear }: Predict
   const data = generatePredictionData(selectedRegion, currentYear)
 
   return (
-    <div className="h-[300px] w-full">
+    <div className="h-[250px] w-full">
       <ChartContainer
         title="AI-Predicted Water Levels"
         description={`Predicted water levels in ${selectedRegion} (${currentYear}-2035)`}
         className="h-full w-full"
       >
         <Chart className="h-full w-full overflow-hidden">
-          <AreaChart data={data} margin={{ top: 20, right: 30, bottom: 25, left: 30 }}>
-            <XAxis dataKey="year" dy={10} />
-            <YAxis tickFormatter={(value) => `${value}m`} domain={[-1.5, 0]} tickCount={6} dx={-10} />
+          <AreaChart data={data} margin={{ top: 15, right: 25, bottom: 30, left: 25 }} scale="auto">
+            <XAxis dataKey="year" dy={8} fontSize={11} />
+            <YAxis tickFormatter={(value) => `${value}m`} domain={[-1.5, 0]} tickCount={5} dx={-5} fontSize={11} />
             <Area dataKey="upperBound" stroke="transparent" fill="#bfdbfe" fillOpacity={0.5} />
             <Area dataKey="lowerBound" stroke="transparent" fill="#bfdbfe" fillOpacity={0.5} />
             <Line
               dataKey="level"
               stroke="#1e40af"
-              strokeWidth={2}
-              dot={{ fill: "#1e40af", r: 4 }}
-              activeDot={{ r: 6, fill: "#3b82f6" }}
+              strokeWidth={1.5}
+              dot={{ fill: "#1e40af", r: 3 }}
+              activeDot={{ r: 5, fill: "#3b82f6" }}
             />
             <ChartTooltip>
               <ChartTooltipContent
