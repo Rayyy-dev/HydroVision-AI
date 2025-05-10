@@ -69,10 +69,10 @@ export default function ImageComparison({ selectedRegion }: ImageComparisonProps
             <div className="absolute inset-y-0 bg-white w-1 cursor-ew-resize" style={{ left: `${sliderValue}%` }} />
 
             <div className="absolute bottom-4 left-4 bg-white bg-opacity-75 px-2 py-1 rounded text-xs">
-              2025 (Current)
+              Current
             </div>
             <div className="absolute bottom-4 right-4 bg-white bg-opacity-75 px-2 py-1 rounded text-xs">
-              2035 (Predicted)
+              Future
             </div>
           </div>
 
@@ -85,8 +85,8 @@ export default function ImageComparison({ selectedRegion }: ImageComparisonProps
               onValueChange={(values) => setSliderValue(values[0])}
             />
             <div className="flex justify-between text-xs text-gray-500 mt-1">
-              <span>2025 Current</span>
-              <span>2035 Predicted</span>
+              <span>Current</span>
+              <span>Future</span>
             </div>
           </div>
         </TabsContent>

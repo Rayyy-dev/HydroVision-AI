@@ -64,7 +64,7 @@ export default function MapView({ selectedYear, onRegionSelect }: MapViewProps) 
       
       // Animate the transition progress
       let startTime: number;
-      const duration = 1000; // 1 second transition
+      const duration = 500; // 500ms transition (faster)
       
       const animate = (timestamp: number) => {
         if (!startTime) startTime = timestamp;
@@ -107,11 +107,11 @@ export default function MapView({ selectedYear, onRegionSelect }: MapViewProps) 
     return {
       image1: { 
         opacity: 1 - transitionProgress,
-        filter: `blur(${transitionProgress * 2}px)`
+        transform: `scale(${1 + transitionProgress * 0.02})` 
       },
       image2: { 
         opacity: transitionProgress,
-        filter: `blur(${(1 - transitionProgress) * 2}px)`
+        transform: `scale(${1 + (1 - transitionProgress) * 0.02})` 
       }
     };
   };
@@ -148,7 +148,7 @@ export default function MapView({ selectedYear, onRegionSelect }: MapViewProps) 
       >
         {/* Base image (old year) */}
         <div 
-          className="absolute inset-0 bg-cover bg-center transition-all duration-1000 ease-in-out"
+          className="absolute inset-0 bg-cover bg-center transition-all duration-500 ease-in-out"
           style={{
             backgroundImage: `url('${getSatelliteImage(previousYear)}')`,
             ...blendStyles.image1
@@ -157,7 +157,7 @@ export default function MapView({ selectedYear, onRegionSelect }: MapViewProps) 
         
         {/* Target image (new year) */}
         <div 
-          className="absolute inset-0 bg-cover bg-center transition-all duration-1000 ease-in-out"
+          className="absolute inset-0 bg-cover bg-center transition-all duration-500 ease-in-out"
           style={{
             backgroundImage: `url('${getSatelliteImage(selectedYear)}')`,
             ...blendStyles.image2
@@ -168,11 +168,6 @@ export default function MapView({ selectedYear, onRegionSelect }: MapViewProps) 
         <div className="absolute top-2 right-2 bg-white bg-opacity-90 p-2 rounded-md shadow-sm z-10">
           <div className="text-sm font-medium">Masuria Region</div>
           <div className="text-xs text-blue-600">Year: {selectedYear}</div>
-          {transitionActive && (
-            <div className="text-xs text-green-600">
-              Processing satellite data... {Math.round(transitionProgress * 100)}%
-            </div>
-          )}
         </div>
 
         {/* Satellite data summary */}
