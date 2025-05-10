@@ -1,0 +1,18 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/next",
+      "config": {
+        "skipBuild": false,
+        "installCommand": "npm install",
+        "buildCommand": "next build",
+        "outputDirectory": ".next"
+      }
+    }
+  ],
+  "github": {
+    "silent": true
+  }
+} 
