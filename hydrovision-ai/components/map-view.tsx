@@ -1,6 +1,6 @@
 "use client"
 
-import { useRef, useState } from "react"
+import { useRef, useState, useEffect } from "react"
 import { Plus, Minus } from "lucide-react"
 
 // Mock water body data for different years
@@ -43,6 +43,8 @@ interface MapViewProps {
 export default function MapView({ selectedYear, onRegionSelect }: MapViewProps) {
   const mapRef = useRef(null)
   const [zoom, setZoom] = useState(9)
+  const [previousYear, setPreviousYear] = useState(selectedYear)
+  const [transitionActive, setTransitionActive] = useState(false)
 
   // Get the closest year data we have
   const getYearData = (year: number) => {
@@ -53,7 +55,28 @@ export default function MapView({ selectedYear, onRegionSelect }: MapViewProps) 
     return waterBodiesData[closestYear as keyof typeof waterBodiesData]
   }
 
+  // Handle year changes with transition effect
+  useEffect(() => {
+    if (selectedYear !== previousYear) {
+      setTransitionActive(true);
+      const timer = setTimeout(() => {
+        setPreviousYear(selectedYear);
+        setTransitionActive(false);
+      }, 500); // Match this to the CSS transition duration
+      
+      return () => clearTimeout(timer);
+    }
+  }, [selectedYear, previousYear]);
+
   const waterBodies = getYearData(selectedYear)
+
+  // Helper function to determine which satellite image to show
+  const getSatelliteImage = (year: number) => {
+    if (year >= 2030) {
+      return '/images/masuria-2035.png';
+    }
+    return '/images/masuria-2025.jpg.png';
+  };
 
   const handleMarkerClick = (name: string) => {
     onRegionSelect(name)
@@ -82,18 +105,31 @@ export default function MapView({ selectedYear, onRegionSelect }: MapViewProps) 
       <div
         ref={mapRef}
         className="w-full h-full relative rounded-lg overflow-hidden"
-        style={{
-          backgroundImage: `url('/images/masuria-${selectedYear >= 2030 ? '2035' : '2025'}.${selectedYear >= 2030 ? 'png' : 'jpg.png'}')`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-          transition: "background-image 0.3s ease-in-out"
-        }}
       >
+        {/* Current satellite image */}
+        <div 
+          className="absolute inset-0 bg-cover bg-center transition-opacity duration-500 ease-in-out"
+          style={{
+            backgroundImage: `url('${getSatelliteImage(selectedYear)}')`,
+            opacity: transitionActive ? 0 : 1,
+          }}
+        />
+        
+        {/* Previous satellite image (for transition) */}
+        {transitionActive && (
+          <div 
+            className="absolute inset-0 bg-cover bg-center"
+            style={{
+              backgroundImage: `url('${getSatelliteImage(previousYear)}')`,
+            }}
+          />
+        )}
+        
         {/* Map title and year indicator */}
         <div className="absolute top-2 right-2 bg-white bg-opacity-90 p-2 rounded-md shadow-sm z-10">
           <div className="text-sm font-medium">Masuria Region</div>
           <div className="text-xs text-blue-600">Year: {selectedYear}</div>
+          {transitionActive && <div className="text-xs text-green-600">Processing satellite data...</div>}
         </div>
 
         {/* Satellite data summary */}
