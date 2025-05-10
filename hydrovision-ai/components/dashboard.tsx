@@ -228,6 +228,38 @@ export default function Dashboard() {
           </>
         ) : null}
       </div>
+      
+      {/* Footer */}
+      <footer className="bg-white border-t border-gray-200 py-6">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col md:flex-row justify-between items-center">
+            <div className="mb-4 md:mb-0">
+              <h3 className="text-lg font-semibold text-blue-700">HydroVision AI</h3>
+              <p className="text-sm text-slate-600">Advanced hydrological analysis using satellite data and AI</p>
+            </div>
+            <div className="flex flex-col md:flex-row md:space-x-8 space-y-2 md:space-y-0">
+              <div>
+                <h4 className="text-sm font-medium text-slate-800">Data Sources</h4>
+                <ul className="text-xs text-slate-600 mt-1">
+                  <li>Sentinel-2 Satellite Imagery</li>
+                  <li>Landsat 8 Thermal and Infrared</li>
+                </ul>
+              </div>
+              <div>
+                <h4 className="text-sm font-medium text-slate-800">Lakes Covered</h4>
+                <ul className="text-xs text-slate-600 mt-1">
+                  <li>Lake Mamry</li>
+                  <li>Lake Śniardwy</li>
+                  <li>Lake Niegocin</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div className="mt-6 pt-4 border-t border-gray-100 text-center">
+            <p className="text-xs text-slate-500">© {new Date().getFullYear()} HydroVision AI. All rights reserved.</p>
+          </div>
+        </div>
+      </footer>
     </div>
   )
 }

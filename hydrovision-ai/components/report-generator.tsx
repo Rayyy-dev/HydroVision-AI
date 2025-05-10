@@ -826,11 +826,11 @@ Report ID: HV-${Date.now().toString().substring(6)}
   };
 
   return (
-    <div className="space-y-4 max-h-[calc(100vh-6rem)] overflow-y-auto pb-4">
+    <div className="space-y-3">
       <div className="space-y-2">
         <Label htmlFor="lake-selection">Select Lake for Analysis</Label>
         <Select value={selectedLake} onValueChange={setSelectedLake}>
-          <SelectTrigger id="lake-selection">
+          <SelectTrigger id="lake-selection" className="h-8">
             <SelectValue placeholder="Select a lake" />
           </SelectTrigger>
           <SelectContent>
@@ -844,22 +844,22 @@ Report ID: HV-${Date.now().toString().substring(6)}
       <div className="space-y-1">
         <Label>Analysis Parameters</Label>
         <Tabs value={analysisTab} onValueChange={setAnalysisTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="waterLevels">
-              <Droplets className="h-4 w-4 mr-2" />
+          <TabsList className="grid w-full grid-cols-2 h-8">
+            <TabsTrigger value="waterLevels" className="text-xs px-2">
+              <Droplets className="h-3 w-3 mr-1" />
               Water Levels
             </TabsTrigger>
-            <TabsTrigger value="scenarios">
-              <BarChart3 className="h-4 w-4 mr-2" />
+            <TabsTrigger value="scenarios" className="text-xs px-2">
+              <BarChart3 className="h-3 w-3 mr-1" />
               Scenarios
             </TabsTrigger>
           </TabsList>
           
-          <TabsContent value="waterLevels" className="space-y-4 pt-4">
-            <div className="space-y-2">
-              <Label htmlFor="report-type">Report Focus</Label>
+          <TabsContent value="waterLevels" className="space-y-3 pt-2">
+            <div className="space-y-1">
+              <Label htmlFor="report-type" className="text-xs">Report Focus</Label>
               <Select value={reportType} onValueChange={setReportType}>
-                <SelectTrigger id="report-type">
+                <SelectTrigger id="report-type" className="h-8">
                   <SelectValue placeholder="Select report focus" />
                 </SelectTrigger>
                 <SelectContent>
@@ -872,11 +872,11 @@ Report ID: HV-${Date.now().toString().substring(6)}
             </div>
           </TabsContent>
           
-          <TabsContent value="scenarios" className="space-y-4 pt-4">
-            <div className="space-y-2">
-              <Label htmlFor="prediction-scenario">Climate Scenario</Label>
+          <TabsContent value="scenarios" className="space-y-3 pt-2">
+            <div className="space-y-1">
+              <Label htmlFor="prediction-scenario" className="text-xs">Climate Scenario</Label>
               <Select value={predictionScenario} onValueChange={setPredictionScenario}>
-                <SelectTrigger id="prediction-scenario">
+                <SelectTrigger id="prediction-scenario" className="h-8">
                   <SelectValue placeholder="Select climate scenario" />
                 </SelectTrigger>
                 <SelectContent>
@@ -886,7 +886,7 @@ Report ID: HV-${Date.now().toString().substring(6)}
                 </SelectContent>
               </Select>
               
-              <p className="text-xs text-gray-500 mt-1">
+              <p className="text-[10px] text-gray-500 mt-1">
                 {predictionScenario === "conservative" &&
                   "Assumes minimal climate change impact and effective conservation measures"}
                 {predictionScenario === "moderate" && 
@@ -900,12 +900,12 @@ Report ID: HV-${Date.now().toString().substring(6)}
       </div>
 
       {/* Preview area for charts */}
-      <div className="mt-4">
-        <Label className="block mb-2">Data Preview</Label>
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          <div className="p-3 bg-white rounded-md border border-gray-200 h-56">
-            <h4 className="text-sm font-medium mb-2 text-blue-800">Water Level Trends</h4>
-            <div className="h-[180px]">
+      <div className="mt-2">
+        <Label className="block mb-1 text-xs">Data Preview</Label>
+        <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
+          <div className="p-2 bg-white rounded-md border border-gray-200 h-36">
+            <h4 className="text-xs font-medium mb-1 text-blue-800">Water Level Trends</h4>
+            <div className="h-[110px]">
               <ChartContainer className="h-full">
                 <LineChart className="h-full">
                   <Line 
@@ -929,9 +929,9 @@ Report ID: HV-${Date.now().toString().substring(6)}
               </ChartContainer>
             </div>
           </div>
-          <div className="p-3 bg-white rounded-md border border-gray-200 h-56">
-            <h4 className="text-sm font-medium mb-2 text-blue-800">Surface Area Changes</h4>
-            <div className="h-[180px]">
+          <div className="p-2 bg-white rounded-md border border-gray-200 h-36">
+            <h4 className="text-xs font-medium mb-1 text-blue-800">Surface Area Changes</h4>
+            <div className="h-[110px]">
               <ChartContainer className="h-full">
                 <BarChart className="h-full">
                   {getCurrentLakeData().surfaceAreaData.map((item, i) => (
@@ -952,10 +952,10 @@ Report ID: HV-${Date.now().toString().substring(6)}
       </div>
 
       {!analysisResult && (
-        <div className="flex items-start gap-2 p-3 bg-amber-50 rounded-md border border-neutral-200 border-amber-200 dark:border-neutral-800">
-          <AlertTriangle className="h-4 w-4 text-amber-500 mt-0.5 flex-shrink-0" />
-          <p className="text-xs text-amber-700">
-            For more detailed analysis in your report, run the "Analyze Current Trends" in the AI Predictions panel.
+        <div className="flex items-start gap-1 p-1.5 bg-amber-50 rounded-md border border-neutral-200 border-amber-200 dark:border-neutral-800">
+          <AlertTriangle className="h-3 w-3 text-amber-500 mt-0.5 flex-shrink-0" />
+          <p className="text-[10px] text-amber-700">
+            For more detailed analysis, run "Analyze Current Trends" in the AI Predictions panel.
           </p>
         </div>
       )}
@@ -963,16 +963,16 @@ Report ID: HV-${Date.now().toString().substring(6)}
       <Button 
         onClick={handleGenerateReport} 
         disabled={isGenerating} 
-        className="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md transition-colors"
+        className="w-full py-1.5 px-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md transition-colors"
       >
         {isGenerating ? (
           <>
-            <FileText className="mr-2 h-4 w-4 animate-pulse" />
+            <FileText className="mr-1.5 h-3.5 w-3.5 animate-pulse" />
             Generating Lake Analysis...
           </>
         ) : (
           <>
-            <Download className="mr-2 h-4 w-4" />
+            <Download className="mr-1.5 h-3.5 w-3.5" />
             Generate Lake Analysis Report
           </>
         )}
