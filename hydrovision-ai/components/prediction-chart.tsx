@@ -96,8 +96,8 @@ export default function PredictionChart({ selectedRegion, currentYear }: Predict
                     return (
                       <div className="text-sm">
                         <p className="font-medium">{payload[0].payload.year}</p>
-                        <p className="text-blue-600">{`Predicted: ${payload[0].payload.level.toFixed(2)}m`}</p>
-                        <p className="text-blue-400">{`Range: ${payload[0].payload.upperBound.toFixed(2)}m to ${payload[0].payload.lowerBound.toFixed(2)}m`}</p>
+                        <p className="text-blue-600">{`Predicted: ${payload[0].payload.level.toFixed(1)}m`}</p>
+                        <p className="text-blue-400">{`Range: ${payload[0].payload.upperBound.toFixed(1)}m to ${payload[0].payload.lowerBound.toFixed(1)}m`}</p>
                       </div>
                     )
                   }
