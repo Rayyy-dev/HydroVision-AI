@@ -177,13 +177,13 @@ export default function Dashboard() {
                             <div>
                               <h4 className="text-sm font-medium text-blue-700">AI Analysis Results</h4>
                               <p className="text-xs text-blue-600 mt-1">
-                                Predicted annual change: {analysisResult.predictions?.waterLevelChange.toFixed(2)}m
+                                Predicted annual change: {analysisResult.predictions?.waterLevelChange?.toFixed(2) || '0'}m
                               </p>
                               <p className="text-xs text-blue-600">
-                                Confidence score: {(analysisResult.predictions?.confidenceScore * 100).toFixed(1)}%
+                                Confidence score: {((analysisResult.predictions?.confidenceScore || 0) * 100).toFixed(1)}%
                               </p>
                               <p className="text-xs text-blue-600">
-                                Risk level: {analysisResult.predictions?.riskLevel}
+                                Risk level: {analysisResult.predictions?.riskLevel || 'Unknown'}
                               </p>
                             </div>
                           </div>

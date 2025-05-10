@@ -7,7 +7,14 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 interface InsightsPanelProps {
   selectedYear: number
   selectedRegion: string
-  analysisResult?: any
+  analysisResult?: {
+    predictions?: {
+      waterLevelChange?: number;
+      confidenceScore?: number;
+      riskLevel?: string;
+    };
+    insights?: string[];
+  } | null
 }
 
 export default function InsightsPanel({ selectedYear, selectedRegion, analysisResult }: InsightsPanelProps) {

@@ -71,8 +71,8 @@ export class HydroVisionAI {
 
   // Simulated U-Net model for image analysis
   public async analyzeSatelliteImage(
-    imagePath: string,
-    region: string
+    _imagePath: string,
+    _region: string
   ): Promise<ImageAnalysis> {
     try {
       // Simulate model processing time
@@ -97,8 +97,8 @@ export class HydroVisionAI {
 
   // Simulated YOLO model for change detection
   public async detectChanges(
-    currentImage: string,
-    historicalImage: string
+    _currentImage: string,
+    _historicalImage: string
   ): Promise<{
     changes: Array<{ x: number; y: number; magnitude: number }>;
     confidence: number;

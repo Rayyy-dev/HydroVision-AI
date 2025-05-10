@@ -10,7 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 interface ReportGeneratorProps {
   selectedRegion: string
   selectedYear: number
-  analysisResult: any
+  analysisResult: any | null
 }
 
 export default function ReportGenerator({ selectedRegion, selectedYear, analysisResult }: ReportGeneratorProps) {
@@ -104,9 +104,9 @@ AI model confidence score: ${scenarioInfo.confidenceScore}%
       content += `
 CUSTOM AI ANALYSIS RESULTS
 
-Predicted annual change: ${analysisResult.predictions?.waterLevelChange.toFixed(2)}m
-Confidence score: ${(analysisResult.predictions?.confidenceScore * 100).toFixed(1)}%
-Risk level: ${analysisResult.predictions?.riskLevel}
+Predicted annual change: ${analysisResult.predictions?.waterLevelChange?.toFixed(2) || '0'}m
+Confidence score: ${((analysisResult.predictions?.confidenceScore || 0) * 100).toFixed(1)}%
+Risk level: ${analysisResult.predictions?.riskLevel || 'Unknown'}
 
 KEY INSIGHTS
 ${analysisResult.insights ? analysisResult.insights.map((insight: string) => `- ${insight}`).join("\n") : ""}

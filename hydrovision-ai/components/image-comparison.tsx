@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Slider } from "@/components/ui/slider"
+import Image from "next/image"
 
 interface ImageComparisonProps {
   selectedRegion: string
@@ -10,7 +11,7 @@ interface ImageComparisonProps {
 
 export default function ImageComparison({ selectedRegion }: ImageComparisonProps) {
   const [sliderValue, setSliderValue] = useState(50)
-  const [comparisonMode, setComparisonMode] = useState<"slider" | "sideBySide">("slider")
+  const [_comparisonMode, setComparisonMode] = useState<"slider" | "sideBySide">("slider")
 
   // Get region-specific images
   const getRegionImages = (region: string) => {
@@ -52,19 +53,22 @@ export default function ImageComparison({ selectedRegion }: ImageComparisonProps
         <TabsContent value="slider" className="pt-4">
           <div className="relative w-full h-[300px] overflow-hidden border border-neutral-200 border-gray-200 rounded-md dark:border-neutral-800">
             <div className="absolute inset-0 bg-white">
-              <img
+              <Image
                 src={images.future || "/placeholder.svg"}
                 alt={`${selectedRegion} 2035 prediction`}
-                className="w-full h-full object-cover"
+                className="object-cover"
+                fill
               />
             </div>
             <div className="absolute inset-0 bg-white overflow-hidden" style={{ width: `${sliderValue}%` }}>
-              <img
-                src={images.current || "/placeholder.svg"}
-                alt={`${selectedRegion} 2025 current`}
-                className="w-full h-full object-cover"
-                style={{ width: `${100 / (sliderValue / 100)}%` }}
-              />
+              <div className="relative h-full w-full">
+                <Image
+                  src={images.current || "/placeholder.svg"}
+                  alt={`${selectedRegion} 2025 current`}
+                  className="object-cover"
+                  fill
+                />
+              </div>
             </div>
             <div className="absolute inset-y-0 bg-white w-1 cursor-ew-resize" style={{ left: `${sliderValue}%` }} />
 
@@ -95,22 +99,28 @@ export default function ImageComparison({ selectedRegion }: ImageComparisonProps
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
               <div className="h-[300px] border border-neutral-200 border-gray-200 rounded-md overflow-hidden dark:border-neutral-800">
-                <img
-                  src={images.current || "/placeholder.svg"}
-                  alt={`${selectedRegion} 2025 current`}
-                  className="w-full h-full object-cover"
-                />
+                <div className="relative w-full h-full">
+                  <Image
+                    src={images.current || "/placeholder.svg"}
+                    alt={`${selectedRegion} 2025 current`}
+                    className="object-cover"
+                    fill
+                  />
+                </div>
               </div>
               <p className="text-center text-sm font-medium">2025 (Current)</p>
             </div>
 
             <div className="space-y-2">
               <div className="h-[300px] border border-neutral-200 border-gray-200 rounded-md overflow-hidden dark:border-neutral-800">
-                <img
-                  src={images.future || "/placeholder.svg"}
-                  alt={`${selectedRegion} 2035 prediction`}
-                  className="w-full h-full object-cover"
-                />
+                <div className="relative w-full h-full">
+                  <Image
+                    src={images.future || "/placeholder.svg"}
+                    alt={`${selectedRegion} 2035 prediction`}
+                    className="object-cover"
+                    fill
+                  />
+                </div>
               </div>
               <p className="text-center text-sm font-medium">2035 (Predicted)</p>
             </div>
