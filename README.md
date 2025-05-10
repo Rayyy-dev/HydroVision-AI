@@ -1,4 +1,4 @@
-# HydroVision AI 🌊
+# HydroVision AI
 
 AI-powered platform for monitoring and predicting water level changes in the Masuria Lake District, Poland.
 
