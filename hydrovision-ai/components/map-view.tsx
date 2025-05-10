@@ -45,6 +45,7 @@ export default function MapView({ selectedYear, onRegionSelect }: MapViewProps) 
   const [zoom, setZoom] = useState(9)
   const [previousYear, setPreviousYear] = useState(selectedYear)
   const [transitionActive, setTransitionActive] = useState(false)
+  const [transitionProgress, setTransitionProgress] = useState(0)
 
   // Get the closest year data we have
   const getYearData = (year: number) => {
@@ -59,12 +60,28 @@ export default function MapView({ selectedYear, onRegionSelect }: MapViewProps) 
   useEffect(() => {
     if (selectedYear !== previousYear) {
       setTransitionActive(true);
-      const timer = setTimeout(() => {
-        setPreviousYear(selectedYear);
-        setTransitionActive(false);
-      }, 500); // Match this to the CSS transition duration
+      setTransitionProgress(0);
       
-      return () => clearTimeout(timer);
+      // Animate the transition progress
+      let startTime: number;
+      const duration = 1000; // 1 second transition
+      
+      const animate = (timestamp: number) => {
+        if (!startTime) startTime = timestamp;
+        const elapsed = timestamp - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        
+        setTransitionProgress(progress);
+        
+        if (progress < 1) {
+          requestAnimationFrame(animate);
+        } else {
+          setPreviousYear(selectedYear);
+          setTransitionActive(false);
+        }
+      };
+      
+      requestAnimationFrame(animate);
     }
   }, [selectedYear, previousYear]);
 
@@ -77,6 +94,29 @@ export default function MapView({ selectedYear, onRegionSelect }: MapViewProps) 
     }
     return '/images/masuria-2025.jpg.png';
   };
+
+  // Calculate the blend mode and opacity based on transition
+  const getBlendStyles = () => {
+    if (!transitionActive) {
+      return {
+        image1: { opacity: 1 },
+        image2: { opacity: 0 }
+      };
+    }
+    
+    return {
+      image1: { 
+        opacity: 1 - transitionProgress,
+        filter: `blur(${transitionProgress * 2}px)`
+      },
+      image2: { 
+        opacity: transitionProgress,
+        filter: `blur(${(1 - transitionProgress) * 2}px)`
+      }
+    };
+  };
+  
+  const blendStyles = getBlendStyles();
 
   const handleMarkerClick = (name: string) => {
     onRegionSelect(name)
@@ -106,30 +146,33 @@ export default function MapView({ selectedYear, onRegionSelect }: MapViewProps) 
         ref={mapRef}
         className="w-full h-full relative rounded-lg overflow-hidden"
       >
-        {/* Current satellite image */}
+        {/* Base image (old year) */}
         <div 
-          className="absolute inset-0 bg-cover bg-center transition-opacity duration-500 ease-in-out"
+          className="absolute inset-0 bg-cover bg-center transition-all duration-1000 ease-in-out"
           style={{
-            backgroundImage: `url('${getSatelliteImage(selectedYear)}')`,
-            opacity: transitionActive ? 0 : 1,
+            backgroundImage: `url('${getSatelliteImage(previousYear)}')`,
+            ...blendStyles.image1
           }}
         />
         
-        {/* Previous satellite image (for transition) */}
-        {transitionActive && (
-          <div 
-            className="absolute inset-0 bg-cover bg-center"
-            style={{
-              backgroundImage: `url('${getSatelliteImage(previousYear)}')`,
-            }}
-          />
-        )}
+        {/* Target image (new year) */}
+        <div 
+          className="absolute inset-0 bg-cover bg-center transition-all duration-1000 ease-in-out"
+          style={{
+            backgroundImage: `url('${getSatelliteImage(selectedYear)}')`,
+            ...blendStyles.image2
+          }}
+        />
         
         {/* Map title and year indicator */}
         <div className="absolute top-2 right-2 bg-white bg-opacity-90 p-2 rounded-md shadow-sm z-10">
           <div className="text-sm font-medium">Masuria Region</div>
           <div className="text-xs text-blue-600">Year: {selectedYear}</div>
-          {transitionActive && <div className="text-xs text-green-600">Processing satellite data...</div>}
+          {transitionActive && (
+            <div className="text-xs text-green-600">
+              Processing satellite data... {Math.round(transitionProgress * 100)}%
+            </div>
+          )}
         </div>
 
         {/* Satellite data summary */}
