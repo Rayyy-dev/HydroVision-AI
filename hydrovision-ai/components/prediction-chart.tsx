@@ -47,9 +47,9 @@ export default function PredictionChart({ selectedRegion, currentYear }: Predict
       const yearUncertainty = uncertaintyFactor * (1 + (year - startYear) * 0.1)
 
       // Calculate level and bounds
-      const level = currentLevel - declineRate * (year - startYear)
-      const upperBound = level + yearUncertainty * (year - startYear + 1)
-      const lowerBound = level - yearUncertainty * (year - startYear + 1)
+      const level = parseFloat((currentLevel - declineRate * (year - startYear)).toFixed(2))
+      const upperBound = parseFloat((level + yearUncertainty * (year - startYear + 1)).toFixed(2))
+      const lowerBound = parseFloat((level - yearUncertainty * (year - startYear + 1)).toFixed(2))
 
       data.push({
         year,
@@ -96,8 +96,8 @@ export default function PredictionChart({ selectedRegion, currentYear }: Predict
                     return (
                       <div className="text-sm">
                         <p className="font-medium">{payload[0].payload.year}</p>
-                        <p className="text-blue-600">{`Predicted: ${payload[0].payload.level.toFixed(1)}m`}</p>
-                        <p className="text-blue-400">{`Range: ${payload[0].payload.upperBound.toFixed(1)}m to ${payload[0].payload.lowerBound.toFixed(1)}m`}</p>
+                        <p className="text-blue-600">{`Level: ${payload[0].payload.level}m`}</p>
+                        <p className="text-blue-400">{`Range: ${payload[0].payload.upperBound}m to ${payload[0].payload.lowerBound}m`}</p>
                       </div>
                     )
                   }
